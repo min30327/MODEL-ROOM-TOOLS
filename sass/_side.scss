@@ -1,0 +1,137 @@
+.side{
+	@include easeOutQuart(600);
+	color:#444;
+	min-width: 300px;	
+	z-index: 4;
+	height: 100%;
+	position: fixed;
+	right: 0;
+	top: 0;
+	background: rgba(0,0,0,0.2);
+	h3{
+		padding: 0 20px;
+		font-size: 16px;
+		font-weight: normal;
+		margin: 0;
+		color: #FFF;
+	}
+	.list{
+		border: none;
+		background: none;
+		.list__item{
+			border: none;
+			margin-bottom: 10px;
+			padding: 0 20px;
+			span{
+				  font-size: 18px;
+				  color:#444;
+				  position: relative;
+				  display: block;
+				  text-align: center;
+				  @include easeOutQuart(200);
+			}
+			.svg-wrapper:hover span,.svg-wrapper.active span{
+				color: #FFF;
+			}
+		}
+	}
+	
+}
+
+.svg-wrapper {
+	cursor: pointer;
+	position: relative;
+	margin: 0 auto;
+	width: 100%;  
+	  svg{
+		position: absolute;
+		}
+	.shape {  
+	  stroke-width: 0px;
+	  stroke-dashoffset: 0;
+	  stroke-dasharray: 0;
+	  fill: transparent;
+	  transition: stroke-width 2s, stroke-dashoffset 2s, stroke-dasharray 2s;
+	}
+}
+
+.btn-close{
+	width: 45px;
+	height: 45px;
+	position:fixed;
+	right:20px;
+	bottom: 60px;
+	z-index: 10;
+	@include easeOutQuart(300);
+	&:before{
+		width: 50px;
+		position: absolute;
+		bottom: 30px;
+		content:' ';
+		border-bottom: 1px solid #fff;
+		transform:rotate(45deg);
+		@include easeOutQuart(300);
+	}
+	&:after{
+		width: 50px;
+		position: absolute;
+		bottom: 30px;
+		content:' ';
+		border-bottom: 1px solid #fff;
+		transform:rotate(-45deg);
+		@include easeOutQuart(300);
+	}
+}
+.side.close{
+	right:-400px;
+	.btn-close{
+		cursor: pointer;
+		width: 40px;
+		border-top: 1px solid #fff;
+		&:before{
+			width: 40px;
+			bottom:31px;
+			transform:rotate(0deg);
+		}
+		&:after{
+			width: 40px;
+			bottom:16px;
+			transform:rotate(0deg);
+		}
+	}
+}
+.svg-wrapper:hover .shape,.svg-wrapper:active .shape,.svg-wrapper.active .shape {
+  stroke-width: 1px;
+  stroke-dashoffset: 100;
+  stroke-dasharray:2000;
+  stroke: #fff;
+}
+
+
+.toggle-switch{
+	padding: 15px 0;
+	
+	span{
+		cursor: pointer;
+		padding: 0 2%;
+		display: inline-block;
+		width: 45%;
+		font-size: 14px;
+		@include easeOutCubic(300);
+		&.active{
+			color: #fff;	
+		}
+	}
+	:first-child{
+		text-align: right;
+		border-right: 1px solid #eee;
+	}
+}
+
+.caution{
+	padding: 15px 20px;
+	color: #eee;
+}
+small{
+	font-size: 12px;
+}

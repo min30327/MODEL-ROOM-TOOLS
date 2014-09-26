@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja" ng-app="App">
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>MRT</title>  
+	<link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+	<link rel="stylesheet" href="styles/onsen-css-components.css">  
+	<link rel="stylesheet" href="styles/app.css">
+</head>
+<body>    
+	<ons-template id="home.html">
+		<ons-navigator>
+			<ons-page>
+				<ons-toolbar>
+					<div class="center">Page1</div>
+				</ons-toolbar>
+				<p style="text-align: center; color: #999; padding-top: 100px;">
+				Page2 Contents
+				</p>
+			</ons-page>
+		</ons-navigator>
+	</ons-template>
+	<ons-template id="select.html">
+		<ons-navigator var="CS01">
+			<ons-page ng-controller="ColorSelectController">
+				<ons-row>
+					<ons-col>
+						<div class="color-select-view prev"></div>
+						<div class="color-select-view fade" style="background-image:url({{image.source}});"></div>
+					</ons-col>
+					<ons-col width="30%" class="side slide-right">
+						<div class="toggle-switch">
+							<span class="active" ng-click="toggle(0)">リビングダイニング</span>
+							<span ng-click="toggle(1)">キッチン</span>
+						</div>
+						<ons-list>
+							<ons-list-item ng-repeat="type in types" ng-click="swichColor($index)">
+							<div class="svg-wrapper" ng-class='rowClass($index)'>
+							  <svg height="45" width="100%" xmlns="http://www.w3.org/2000/svg">
+							    <rect class="shape" height="45" width="100%" />
+									<span>{{type.title}}</span>
+								</rect>
+							</svg>
+							</div>
+							</ons-list-item>
+						</ons-list>
+						<div ng-show="texture" class="flip-in">
+							<h3>扉面材セレクト</h3>
+							<div class="texture">
+								<div class="texture-view">
+									<img src="{{primary_texture.source}}" alt="{{primary_texture.title}}">
+									<p class="text-center">{{primary_texture.title}}</p>
+								</div>
+								<ul class="list-inline">
+									<li ng-repeat="texture in textures" ng-click="switch_texture($index)">
+										<img src="{{texture.source}}" alt="{{texture.title}}">
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div ng-show="top" class="flip-in">
+							<h3>天材セレクト</h3>
+							<div class="texture">
+								<div class="texture-view">
+									<img src="{{primary_top.source}}" alt="{{primary_top.title}}">
+									<p class="text-center">{{primary_top.title}}</p>
+								</div>
+								<ul class="list-inline">
+									<li ng-repeat="top in tops" ng-click="switch_top($index)">
+										<img src="{{top.source}}" alt="{{top.title}}">
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="caution">
+							<small>
+								掲載の写真はモデルルームの写真を基にCG合成したもので、実際とは色や形状が異なる場合がございます。<br>
+								モデルルームのカラーセレクトコーナーにて実物をご確認下さい。<br>
+								※基本仕様とは異なり、一部有償オプションが含まれますのでご注意ください。
+							</small>
+						</div>
+						<span class="btn-close" ng-click="sideClose();"></span>
+					</ons-col>
+				</ons-row>
+			</ons-page>
+		</ons-navigator>
+	</ons-template>
+	<ons-template id="view.html">
+		<ons-navigator>
+			<ons-page>
+				<ons-toolbar>
+					<div class="center">眺望</div>
+				</ons-toolbar>
+				<p style="text-align: center; color: #999; padding-top: 100px;">
+				Page2 Contents
+				</p>
+			</ons-page>
+		</ons-navigator>
+	</ons-template>
+	<ons-template id="plan.html">
+		<ons-navigator>
+			<ons-page>
+				<ons-toolbar>
+					<div class="center">間取り</div>
+				</ons-toolbar>
+				<p style="text-align: center; color: #999; padding-top: 100px;">
+				Page2 Contents
+				</p>
+			</ons-page>
+		</ons-navigator>
+	</ons-template>
+	<ons-tabbar>
+		<ons-tab page="home.html" active="true">
+			<ons-icon icon="ion-home"></ons-icon>
+			<span style="font-size: 14px">Home</span>
+		</ons-tab>
+		<ons-tab page="select.html">
+			<ons-icon icon="ion-star"></ons-icon>
+			<span style="font-size: 14px">カラーセレクト</span>
+		</ons-tab>
+		<ons-tab page="view.html">
+			<ons-icon icon="ion-gear-a"></ons-icon>
+			<span style="font-size: 14px">眺望</span>
+		</ons-tab>
+		<ons-tab page="plan.html">
+			<ons-icon icon="ion-gear-a"></ons-icon>
+			<span style="font-size: 14px">間取り</span>
+		</ons-tab>
+	</ons-tabbar>
+	<script src="lib/onsen/js/angular/angular.js"></script>    
+	<script src="lib/onsen/js/angular/angular-animate.js"></script>
+	<script src="lib/onsen/js/jquery.min.js"></script>
+	<script src="lib/onsen/js/onsenui.js"></script>    
+	<script src="js/min/app.min.js"></script>  
+
+</body>  
+</html>

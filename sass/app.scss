@@ -1,0 +1,64 @@
+
+@import 'ng-animation';
+
+@import 'mixin';
+
+@import 'side';
+
+:checked + .tab-bar__button{
+	color: #baa770;
+}
+.tab-bar{
+	z-index: 999;
+	position: fixed;
+}
+.color-select-view{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #FFF;
+	background-position: center center;
+	background-size:cover;
+	z-index: 2;
+		&.prev{
+			z-index: 1;
+		}
+
+}
+.list-inline{
+	list-style:none;
+	margin: 0;
+	padding: 0;
+	li{
+		
+		display: inline-block;
+		margin-right: 4px;
+	}
+}
+
+.texture,.tops{
+	clear: both;
+	overflow: hidden;
+	padding: 10px 20px;
+	position: relative;
+	.texture-view{
+		float: left;
+		width: 100px;
+		margin-right: 4px;
+				
+		p{
+			font-size: 10px;
+			color: #FFF;
+			margin: 0;
+		}
+	}
+	img{
+			max-width: 100%;
+			height: auto;
+	}
+	li{
+		width: 50px;
+		vertical-align: top;
+	
+	}
+}
