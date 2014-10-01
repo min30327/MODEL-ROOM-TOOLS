@@ -29,33 +29,35 @@
 					<ons-col>
 						<div class="color-select-view prev"></div>
 						<div class="color-select-view fade" style="background-image:url({{image.source}});"></div>
+						<div ng-if="texture" class="color-select-view overlay-prev"></div>
+						<div ng-if="texture" class="color-select-view overlay" style="background-image:url(img/png/kit_off_m04.png);"></div>
 					</ons-col>
 					<ons-col width="30%" class="side slide-right">
 						<div class="toggle-switch">
 							<span class="active" ng-click="toggle(0)">リビングダイニング</span>
 							<span ng-click="toggle(1)">キッチン</span>
 						</div>
-						<ons-list>
-							<ons-list-item ng-repeat="type in types" ng-click="swichColor($index)">
+						<ul class="side-list">
+							<li class="side-list-item" ng-repeat="type in types" ng-click="swichColor($index)">
 							<div class="svg-wrapper" ng-class='rowClass($index)'>
-							  <svg height="45" width="100%" xmlns="http://www.w3.org/2000/svg">
-							    <rect class="shape" height="45" width="100%" />
-									<span>{{type.title}}</span>
-								</rect>
-							</svg>
+								<svg height="40" width="100%" xmlns="http://www.w3.org/2000/svg">
+								    <rect class="shape" height="40" width="100%" />
+										<span>{{type.title}}</span>
+									</rect>
+								</svg>
 							</div>
-							</ons-list-item>
-						</ons-list>
+							</li>
+						</ul>
 						<div ng-show="texture" class="flip-in">
 							<h3>扉面材セレクト</h3>
 							<div class="texture">
 								<div class="texture-view">
-									<img src="{{primary_texture.source}}" alt="{{primary_texture.title}}">
+									<img ng-src="{{primary_texture.source}}" alt="{{primary_texture.title}}">
 									<p class="text-center">{{primary_texture.title}}</p>
 								</div>
 								<ul class="list-inline">
 									<li ng-repeat="texture in textures" ng-click="switch_texture($index)">
-										<img src="{{texture.source}}" alt="{{texture.title}}">
+										<img ng-src="{{texture.source}}" alt="{{texture.title}}">
 									</li>
 								</ul>
 							</div>
@@ -64,14 +66,36 @@
 							<h3>天材セレクト</h3>
 							<div class="texture">
 								<div class="texture-view">
-									<img src="{{primary_top.source}}" alt="{{primary_top.title}}">
+									<img ng-src="{{primary_top.source}}" alt="{{primary_top.title}}">
 									<p class="text-center">{{primary_top.title}}</p>
 								</div>
 								<ul class="list-inline">
 									<li ng-repeat="top in tops" ng-click="switch_top($index)">
-										<img src="{{top.source}}" alt="{{top.title}}">
+										<img ng-src="{{top.source}}" alt="{{top.title}}">
 									</li>
 								</ul>
+							</div>
+						</div>
+						<div ng-show="cupboard" class="flip-in">
+							<h3>吊戸棚</h3>
+							<div class="wrap">
+								<div class="btn-switch btn-cupboard" ng-click="switch_cupboard()">
+									<span class="button"></span>
+								</div>
+								<span class="label">
+									OFF / ON
+								</span>
+							</div>
+						</div>
+						<div ng-show="!primary_cupboard&&shape" class="flip-in">
+							<h3>キッチン形状セレクト</h3>
+							<div class="wrap">
+								<div class="btn-switch btn-shape" ng-click="switch_shape($index)">
+									<span class="button"></span>
+								</div>							
+								<span class="label">
+									木製カウンター / 天板伸ばし
+								</span>
 							</div>
 						</div>
 						<div class="caution">
@@ -81,59 +105,118 @@
 								※基本仕様とは異なり、一部有償オプションが含まれますのでご注意ください。
 							</small>
 						</div>
-						<span class="btn-close" ng-click="sideClose();"></span>
 					</ons-col>
+					<span class="btn-close" ng-click="sideClose();"></span>
 				</ons-row>
 			</ons-page>
 		</ons-navigator>
 	</ons-template>
 	<ons-template id="view.html">
-		<ons-navigator>
-			<ons-page>
-				<ons-toolbar>
-					<div class="center">眺望</div>
-				</ons-toolbar>
-				<p style="text-align: center; color: #999; padding-top: 100px;">
-				Page2 Contents
-				</p>
+		<ons-navigator var="ViewNavigator">
+			<ons-page ng-controller="ViewController">
+				<ons-row>
+					<ons-col>
+						<div id="ViewRenderer"></div>
+						<span class="btn-close" ng-click="sideClose();"></span>
+						<div class="floormap">
+							<img src="img/view/1f.png" height="230" width="230" alt="">
+							<img src="img/view/azimuth.png" alt="" id="azimuth">
+							<img src="img/view/beam.png" height="150" width="80" alt="" class="beam" data-deg="0">
+						</div>
+					</ons-col>
+					<ons-col width="30%" class="side slide-right pt20">
+						<ul class="side-list">
+							<li class="side-list-item" ng-repeat="view in view_paths" ng-click="switchView($index)">
+								<div class="svg-wrapper" ng-class='rowClass($index)'>
+									<svg height="40" width="100%" xmlns="http://www.w3.org/2000/svg">
+									    <rect class="shape" height="40" width="100%" />
+											<span>{{view.title}}</span>
+										</rect>
+									</svg>
+								</div>
+							</li>
+						</ul>
+						<div>
+							<h3>アニメーション</h3>
+							<div class="wrap">
+								<div class="btn-switch btn-animate active" ng-click="switch_auto()">
+									<span class="button"></span>
+								</div>
+								<span class="label">
+									OFF / ON
+								</span>						
+							</div>
+						</div>		
+					</ons-col>
+				</ons-row>
 			</ons-page>
 		</ons-navigator>
 	</ons-template>
 	<ons-template id="plan.html">
 		<ons-navigator>
-			<ons-page>
-				<ons-toolbar>
-					<div class="center">間取り</div>
-				</ons-toolbar>
-				<p style="text-align: center; color: #999; padding-top: 100px;">
-				Page2 Contents
-				</p>
+			<ons-page ng-controller="PlanController">
+				<ons-row>
+					<ons-col>
+						<div class="bg-plan"></div>
+						<div class="content">
+							<div class="floor">
+							<div ng-repeat="f in floors">{{f}} F</div>
+							</div>
+							<div class="plans">
+								<ul ng-repeat="plan in plans.data">
+									<li ng-repeat="room in plan.rooms">{{plan.name}}<br>{{room.no}}</li>
+								</ul>
+							</div>
+						</div>
+						
+						<span class="btn-close" ng-click="sideClose();"></span>						
+					</ons-col>
+					<ons-col width="30%" class="side slide-right pt20">
+						<div>
+							<h3>面積を選択</h3>
+							<div class="areas">
+								<ul>
+									<li ng-repeat="plan in plans.areas">{{plan}}</li>
+								</ul>
+							</div>
+						</div>		
+					</ons-col>
+				</ons-row>
 			</ons-page>
 		</ons-navigator>
 	</ons-template>
-	<ons-tabbar>
-		<ons-tab page="home.html" active="true">
-			<ons-icon icon="ion-home"></ons-icon>
-			<span style="font-size: 14px">Home</span>
-		</ons-tab>
-		<ons-tab page="select.html">
-			<ons-icon icon="ion-star"></ons-icon>
-			<span style="font-size: 14px">カラーセレクト</span>
-		</ons-tab>
-		<ons-tab page="view.html">
-			<ons-icon icon="ion-gear-a"></ons-icon>
-			<span style="font-size: 14px">眺望</span>
-		</ons-tab>
-		<ons-tab page="plan.html">
-			<ons-icon icon="ion-gear-a"></ons-icon>
-			<span style="font-size: 14px">間取り</span>
-		</ons-tab>
-	</ons-tabbar>
+	<div ng-controller="TabController">
+		<ons-tabbar var="tabbar">
+			<ons-tab page="home.html" active="true">
+				<ons-icon icon="ion-home"></ons-icon>
+				<span style="font-size: 14px">Home</span>
+			</ons-tab>
+			<ons-tab page="select.html">
+				<ons-icon icon="ion-star"></ons-icon>
+				<span style="font-size: 14px">カラーセレクト</span>
+			</ons-tab>
+			<ons-tab page="view.html" class="pos-r" ng-click="ViewButton()" id="viewBtn">
+				<ons-icon icon="ion-gear-a" ></ons-icon>
+				<span style="font-size: 14px">眺望</span>
+			</ons-tab>
+			<ons-tab page="plan.html">
+				<ons-icon icon="ion-gear-a"></ons-icon>
+				<span style="font-size: 14px">間取り</span>
+			</ons-tab>
+		</ons-tabbar>
+		<div class="btn-overlay" ng-show="viewBtn"></div>
+	</div>
 	<script src="lib/onsen/js/angular/angular.js"></script>    
 	<script src="lib/onsen/js/angular/angular-animate.js"></script>
 	<script src="lib/onsen/js/jquery.min.js"></script>
-	<script src="lib/onsen/js/onsenui.js"></script>    
-	<script src="js/min/app.min.js"></script>  
-
+	<script src="lib/onsen/js/onsenui.js"></script>  
+	<script src="lib/three.min.js"></script>
+	<script src="lib/CSS3DRenderer.js"></script>
+	<script src="js/min/app.min.js"></script>
+	<script src="js/min/config.min.js"></script>
+	<script src="js/min/color-select.min.js"></script>
+	<script src="js/min/panorama.min.js"></script>
+	<script src="js/min/plan.min.js"></script>
+	
 </body>  
 </html>
