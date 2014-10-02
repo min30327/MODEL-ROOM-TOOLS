@@ -32,6 +32,7 @@
 						<div ng-if="texture" class="color-select-view overlay-prev"></div>
 						<div ng-if="texture" class="color-select-view overlay" style="background-image:url(img/png/kit_off_m04.png);"></div>
 					</ons-col>
+					<ons-gesture-detector>
 					<ons-col width="30%" class="side slide-right">
 						<div class="toggle-switch">
 							<span class="active" ng-click="toggle(0)">リビングダイニング</span>
@@ -106,6 +107,7 @@
 							</small>
 						</div>
 					</ons-col>
+					</ons-gesture-detector>
 					<span class="btn-close" ng-click="sideClose();"></span>
 				</ons-row>
 			</ons-page>
@@ -157,27 +159,64 @@
 			<ons-page ng-controller="PlanController">
 				<ons-row>
 					<ons-col>
-						<div class="bg-plan"></div>
+						<div class="bg-plan"><div></div></div>
 						<div class="content">
-							<div class="floor">
-							<div ng-repeat="f in floors">{{f}} F</div>
-							</div>
 							<div class="plans">
-								<ul ng-repeat="plan in plans.data">
-									<li ng-repeat="room in plan.rooms">{{plan.name}}<br>{{room.no}}</li>
+								<ul >
+									<li ng-repeat="plan in plans.data">
+										<div class="type-name">
+											<span>{{plan.plan}}</span> type
+										</div>
+										<div class="type">
+											{{ plan.type_name }}
+										</div>
+										<div class="score">
+											<span>{{plan.score}}</span> ㎡
+										</div>
+										<div class="direction">
+											{{ plans.directions[plan.direction] }}向き
+										</div>
+										<div class="details">
+											{{plan.details}}
+										</div>
+									</li>
 								</ul>
 							</div>
 						</div>
 						
-						<span class="btn-close" ng-click="sideClose();"></span>						
+						<!-- <span class="btn-close" ng-click="sideClose();"></span>						 -->
 					</ons-col>
 					<ons-col width="30%" class="side slide-right pt20">
 						<div>
 							<h3>面積を選択</h3>
-							<div class="areas">
-								<ul>
-									<li ng-repeat="plan in plans.areas">{{plan}}</li>
-								</ul>
+							<div class="wrap areas">
+								<div class="range-slider">
+									<div class="meter">
+										<div class="inner">
+											<span ng-repeat="val in area">{{val}}㎡</span>
+										</div>
+									</div>
+									<div class="nstSlider range-bg" data-range_min="{{plans.area.min}}" data-range_max="{{plans.area.max}}" data-cur_min="55" data-cur_max="90">
+										<div class="highlightPanel"></div>
+									    <div class="bar"></div>
+									    <div class="handle leftGrip"></div>
+									    <div class="handle rightGrip"></div>
+									</div>								
+									<div class="leftLabel" ></div>
+									<div class="rightLabel"></div>
+								</div>
+							</div>
+							<h3>間取りを選択</h3>
+							<div class="wrap areas">
+								<div class="btn-group">
+									<span class="btn active" ng-repeat="type in plans.types">{{ type }}</span>
+								</div>
+							</div>
+							<h3>向きを選択</h3>
+							<div class="wrap areas">
+								<div class="btn-group">
+									<span class="btn active" ng-repeat="direction in plans.directions">{{ direction }}向き</span>
+								</div>
 							</div>
 						</div>		
 					</ons-col>
@@ -192,16 +231,16 @@
 				<span style="font-size: 14px">Home</span>
 			</ons-tab>
 			<ons-tab page="select.html">
-				<ons-icon icon="ion-star"></ons-icon>
+				<ons-icon icon="ion-waterdrop"></ons-icon>
 				<span style="font-size: 14px">カラーセレクト</span>
 			</ons-tab>
 			<ons-tab page="view.html" class="pos-r" ng-click="ViewButton()" id="viewBtn">
-				<ons-icon icon="ion-gear-a" ></ons-icon>
+				<ons-icon icon="ion-pinpoint" ></ons-icon>
 				<span style="font-size: 14px">眺望</span>
 			</ons-tab>
 			<ons-tab page="plan.html">
-				<ons-icon icon="ion-gear-a"></ons-icon>
-				<span style="font-size: 14px">間取り</span>
+				<ons-icon icon="ion-search"></ons-icon>
+				<span style="font-size: 14px">間取り検索</span>
 			</ons-tab>
 		</ons-tabbar>
 		<div class="btn-overlay" ng-show="viewBtn"></div>
@@ -213,10 +252,11 @@
 	<script src="lib/three.min.js"></script>
 	<script src="lib/CSS3DRenderer.js"></script>
 	<script src="js/min/app.min.js"></script>
+	<script src="js/min/lib.min.js"></script>
 	<script src="js/min/config.min.js"></script>
 	<script src="js/min/color-select.min.js"></script>
 	<script src="js/min/panorama.min.js"></script>
-	<script src="js/min/plan.min.js"></script>
+	<script src="js/plan.js"></script>
 	
 </body>  
 </html>

@@ -24,6 +24,10 @@
 		  	
   		});
 
+  		  $(document).on('swiperight', '.side', function() {
+			   	$scope.sideClose();
+			  })
+
 	  	/**
 	  	 * [swichColor description]
 	  	 * @return {[type]}
