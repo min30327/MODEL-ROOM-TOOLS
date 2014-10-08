@@ -4,259 +4,296 @@
 	<meta charset="utf-8">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
-	<title>MRT</title>  
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<title>MRT APP</title>  
 	<link rel="stylesheet" href="lib/onsen/css/onsenui.css">
 	<link rel="stylesheet" href="styles/onsen-css-components.css">  
 	<link rel="stylesheet" href="styles/app.css">
+	<link rel="apple-touch-icon" href="http://4d:4d@pre.4digit.jp/-ON/999-okd/MRT/mock/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" href="http://4d:4d@pre.4digit.jp/-ON/999-okd/MRT/mock/apple-touch-icon.png">
+	<link rel="apple-touch-startup-image" href="http://4d:4d@pre.4digit.jp/-ON/999-okd/MRT/mock/img/ico.png">
 </head>
-<body>    
-	<ons-template id="home.html">
-		<ons-navigator>
-			<ons-page>
-				<ons-toolbar>
-					<div class="center">Page1</div>
-				</ons-toolbar>
-				<p style="text-align: center; color: #999; padding-top: 100px;">
-				Page2 Contents
-				</p>
-			</ons-page>
-		</ons-navigator>
-	</ons-template>
-	<ons-template id="select.html">
-		<ons-navigator var="CS01">
-			<ons-page ng-controller="ColorSelectController">
-				<ons-row>
-					<ons-col>
-						<div class="color-select-view prev"></div>
-						<div class="color-select-view fade" style="background-image:url({{image.source}});"></div>
-						<div ng-if="texture" class="color-select-view overlay-prev"></div>
-						<div ng-if="texture" class="color-select-view overlay" style="background-image:url(img/png/kit_off_m04.png);"></div>
-					</ons-col>
-					<ons-gesture-detector>
-					<ons-col width="30%" class="side slide-right">
-						<div class="toggle-switch">
-							<span class="active" ng-click="toggle(0)">リビングダイニング</span>
-							<span ng-click="toggle(1)">キッチン</span>
-						</div>
-						<ul class="side-list">
-							<li class="side-list-item" ng-repeat="type in types" ng-click="swichColor($index)">
-							<div class="svg-wrapper" ng-class='rowClass($index)'>
-								<svg height="40" width="100%" xmlns="http://www.w3.org/2000/svg">
-								    <rect class="shape" height="40" width="100%" />
-										<span>{{type.title}}</span>
-									</rect>
-								</svg>
+<body> 
+	<div id="page"> 
+		<ons-template id="top.html">
+			<ons-navigator>
+				<ons-page ng-controller="HomeController">
+					<div class="home-bg active"></div>
+				</ons-page>
+			</ons-navigator>
+		</ons-template>
+		<ons-template id="select.html">
+			<ons-navigator var="CS01">
+				<ons-page ng-controller="ColorSelectController">
+					<ons-row>
+						<ons-col>
+							<div class="color-select-view prev"></div>
+							<div class="color-select-view fade" style="background-image:url({{image.source}});"></div>
+							<div ng-if="texture" class="color-select-view overlay-prev"></div>
+							<div ng-if="texture" class="color-select-view overlay" style="background-image:url({{curent_texture}});"></div>
+						</ons-col>
+						<ons-gesture-detector>
+						<ons-col width="30%" class="side slide-right">
+							<div class="toggle-switch">
+								<span class="active" ng-click="toggle(0)">リビングダイニング</span>
+								<span ng-click="toggle(1)">キッチン</span>
 							</div>
-							</li>
-						</ul>
-						<div ng-show="texture" class="flip-in">
-							<h3>扉面材セレクト</h3>
-							<div class="texture">
-								<div class="texture-view">
-									<img ng-src="{{primary_texture.source}}" alt="{{primary_texture.title}}">
-									<p class="text-center">{{primary_texture.title}}</p>
-								</div>
-								<ul class="list-inline">
-									<li ng-repeat="texture in textures" ng-click="switch_texture($index)">
-										<img ng-src="{{texture.source}}" alt="{{texture.title}}">
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div ng-show="top" class="flip-in">
-							<h3>天材セレクト</h3>
-							<div class="texture">
-								<div class="texture-view">
-									<img ng-src="{{primary_top.source}}" alt="{{primary_top.title}}">
-									<p class="text-center">{{primary_top.title}}</p>
-								</div>
-								<ul class="list-inline">
-									<li ng-repeat="top in tops" ng-click="switch_top($index)">
-										<img ng-src="{{top.source}}" alt="{{top.title}}">
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div ng-show="cupboard" class="flip-in">
-							<h3>吊戸棚</h3>
-							<div class="wrap">
-								<div class="btn-switch btn-cupboard" ng-click="switch_cupboard()">
-									<span class="button"></span>
-								</div>
-								<span class="label">
-									OFF / ON
-								</span>
-							</div>
-						</div>
-						<div ng-show="!primary_cupboard&&shape" class="flip-in">
-							<h3>キッチン形状セレクト</h3>
-							<div class="wrap">
-								<div class="btn-switch btn-shape" ng-click="switch_shape($index)">
-									<span class="button"></span>
-								</div>							
-								<span class="label">
-									木製カウンター / 天板伸ばし
-								</span>
-							</div>
-						</div>
-						<div class="caution">
-							<small>
-								掲載の写真はモデルルームの写真を基にCG合成したもので、実際とは色や形状が異なる場合がございます。<br>
-								モデルルームのカラーセレクトコーナーにて実物をご確認下さい。<br>
-								※基本仕様とは異なり、一部有償オプションが含まれますのでご注意ください。
-							</small>
-						</div>
-					</ons-col>
-					</ons-gesture-detector>
-					<span class="btn-close" ng-click="sideClose();"></span>
-				</ons-row>
-			</ons-page>
-		</ons-navigator>
-	</ons-template>
-	<ons-template id="view.html">
-		<ons-navigator var="ViewNavigator">
-			<ons-page ng-controller="ViewController">
-				<ons-row>
-					<ons-col>
-						<div id="ViewRenderer"></div>
-						<span class="btn-close" ng-click="sideClose();"></span>
-						<div class="floormap">
-							<img src="img/view/1f.png" height="230" width="230" alt="">
-							<img src="img/view/azimuth.png" alt="" id="azimuth">
-							<img src="img/view/beam.png" height="150" width="80" alt="" class="beam" data-deg="0">
-						</div>
-					</ons-col>
-					<ons-col width="30%" class="side slide-right pt20">
-						<ul class="side-list">
-							<li class="side-list-item" ng-repeat="view in view_paths" ng-click="switchView($index)">
+							<ul class="side-list">
+								<li class="side-list-item" ng-repeat="type in types" ng-click="swichColor($index)">
 								<div class="svg-wrapper" ng-class='rowClass($index)'>
 									<svg height="40" width="100%" xmlns="http://www.w3.org/2000/svg">
 									    <rect class="shape" height="40" width="100%" />
-											<span>{{view.title}}</span>
+											<span>{{type.title}}</span>
 										</rect>
 									</svg>
 								</div>
-							</li>
-						</ul>
-						<div>
-							<h3>アニメーション</h3>
-							<div class="wrap">
-								<div class="btn-switch btn-animate active" ng-click="switch_auto()">
-									<span class="button"></span>
+								</li>
+							</ul>
+							<div ng-show="texture" class="flip-in">
+								<h3>扉面材セレクト</h3>
+								<div class="texture">
+									<div class="texture-view">
+										<img ng-src="{{primary_texture.source}}" alt="{{primary_texture.title}}">
+										<p class="text-center">{{primary_texture.title}}</p>
+									</div>
+									<ul class="list-inline">
+										<li ng-repeat="texture in textures" ng-click="switch_texture($index)">
+											<img ng-src="{{texture.source}}" alt="{{texture.title}}">
+										</li>
+									</ul>
 								</div>
-								<span class="label">
-									OFF / ON
-								</span>						
 							</div>
-						</div>		
-					</ons-col>
-				</ons-row>
-			</ons-page>
-		</ons-navigator>
-	</ons-template>
-	<ons-template id="plan.html">
-		<ons-navigator>
-			<ons-page ng-controller="PlanController">
-				<ons-row>
-					<ons-col>
-						<div class="bg-plan"><div></div></div>
-						<div class="content">
-							<div class="plans">
-								<ul >
-									<li ng-repeat="plan in plans.data">
-										<div class="type-name">
-											<span>{{plan.plan}}</span> type
-										</div>
-										<div class="type">
-											{{ plan.type_name }}
-										</div>
-										<div class="score">
-											<span>{{plan.score}}</span> ㎡
-										</div>
-										<div class="direction">
-											{{ plans.directions[plan.direction] }}向き
-										</div>
-										<div class="details">
-											{{plan.details}}
-										</div>
-									</li>
-								</ul>
+							<div ng-show="top" class="flip-in">
+								<h3>天材セレクト</h3>
+								<div class="texture">
+									<div class="texture-view">
+										<img ng-src="{{primary_top.source}}" alt="{{primary_top.title}}">
+										<p class="text-center">{{primary_top.title}}</p>
+									</div>
+									<ul class="list-inline">
+										<li ng-repeat="top in tops" ng-click="switch_top($index)">
+											<img ng-src="{{top.source}}" alt="{{top.title}}">
+										</li>
+									</ul>
+								</div>
 							</div>
-						</div>
-						
-						<!-- <span class="btn-close" ng-click="sideClose();"></span>						 -->
-					</ons-col>
-					<ons-col width="30%" class="side slide-right pt20">
-						<div>
-							<h3>面積を選択</h3>
-							<div class="wrap areas">
-								<div class="range-slider">
-									<div class="meter">
-										<div class="inner">
-											<span ng-repeat="val in area">{{val}}㎡</span>
+							<div ng-show="cupboard" class="flip-in">
+								<h3>吊戸棚</h3>
+								<div class="wrap">
+									<div class="btn-switch btn-cupboard" ng-click="switch_cupboard()">
+										<span class="button"></span>
+									</div>
+									<span class="label">
+										OFF / ON
+									</span>
+								</div>
+							</div>
+							<div ng-show="!primary_cupboard&&shape" class="flip-in">
+								<h3>キッチン形状セレクト</h3>
+								<div class="wrap">
+									<div class="btn-switch btn-shape" ng-click="switch_shape($index)">
+										<span class="button"></span>
+									</div>							
+									<span class="label">
+										木製カウンター / 天板伸ばし
+									</span>
+								</div>
+							</div>
+							<div class="caution">
+								<small>
+									掲載の写真はモデルルームの写真を基にCG合成したもので、実際とは色や形状が異なる場合がございます。<br>
+									モデルルームのカラーセレクトコーナーにて実物をご確認下さい。<br>
+									※基本仕様とは異なり、一部有償オプションが含まれますのでご注意ください。
+								</small>
+							</div>
+						</ons-col>
+						</ons-gesture-detector>
+						<span class="btn-close" ng-click="sideClose();"></span>
+					</ons-row>
+				</ons-page>
+			</ons-navigator>
+		</ons-template>
+		<ons-template id="view.html">
+			<ons-navigator var="ViewNavigator">
+				<ons-page ng-controller="ViewController">
+					<ons-row>
+						<ons-col>
+							<div id="ViewRenderer"></div>
+							<span class="btn-close" ng-click="sideClose();"></span>
+							<div class="floormap">
+								<img ng-src="img/view/1f.png" height="230" width="230" alt="">
+								<img ng-src="img/view/azimuth.png" alt="" id="azimuth">
+								<img ng-src="img/view/beam.png" height="150" width="80" alt="" class="beam" data-deg="0">
+							</div>
+						</ons-col>
+						<ons-col width="30%" class="side slide-right pt20">
+							<ul class="side-list">
+								<li class="side-list-item" ng-repeat="view in view_paths" ng-click="switchView($index)">
+									<div class="svg-wrapper" ng-class='rowClass($index)'>
+										<svg height="40" width="100%" xmlns="http://www.w3.org/2000/svg">
+										    <rect class="shape" height="40" width="100%" />
+												<span>{{view.title}}</span>
+											</rect>
+										</svg>
+									</div>
+								</li>
+							</ul>
+							<div>
+								<h3>アニメーション</h3>
+								<div class="wrap">
+									<div class="btn-switch btn-animate active" ng-click="switch_auto()">
+										<span class="button"></span>
+									</div>
+									<span class="label">
+										OFF / ON
+									</span>						
+								</div>
+							</div>		
+						</ons-col>
+					</ons-row>
+				</ons-page>
+			</ons-navigator>
+		</ons-template>
+		<ons-template id="plan.html">
+			<ons-navigator>
+				<ons-page ng-controller="PlanController">
+					<ons-row>
+						<ons-col>
+							<div class="bg-plan"><div></div></div>
+							<div class="content">
+								<div class="plans">
+									<ul >
+										<li ng-repeat="plan in filtered = (plans.data | filter: filterByType|filter:filterByDirection|filter:filterByArea)" class="scale-fade" ng-click="trigger_modal($index)">
+											<div class="plan-type-name">
+												<span>{{plan.plan}}</span> type
+											</div>
+											<div class="plan-type">
+												{{ plan.type_name }}
+											</div>
+											<div class="plan-score">
+												<span>{{plan.score}}</span> ㎡
+											</div>
+											<div class="plan-direction">
+												{{ plans.directions[plan.direction] }}向き
+											</div>
+											<div class="plan-details">
+												{{plan.details}}
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div id="modal" class="scale-fade" ng-show="modalopen" ng-init="modalopen=false">
+								<div class="modal-body">
+									<div class="canvaswrap">
+										<canvas id="canvas"></canvas>
+									</div>
+									<div class="modal-detail">
+										<div class="plan-type-name">
+											<span>{{modal.plan}}</span> type
+											</div>
+											<div class="plan-type">
+												{{ modal.type_name }}
+											</div>
+											<div class="plan-score">
+												<span>{{modal.score}}</span> ㎡
+											</div>
+											<div class="plan-direction">
+												{{ plans.directions[modal.direction] }}向き
+											</div>
+											<div class="plan-details">
+												{{modal.details}}
+											</div>
+									</div>
+								</div>
+								<span class="btn-close" ng-click="close_modal()"></span>
+							</div>
+							<div class="modal-overlay" ng-show="modalopen" ng-click="close_modal()"></div>
+						</ons-col>
+						<ons-col width="30%" class="side slide-right pt20">
+							<div>
+								<h3>面積を選択</h3>
+								<div class="wrap areas">
+									<div class="range-slider">
+										<div class="meter">
+											<div class="inner">
+												<span ng-repeat="val in area">{{val}}㎡</span>
+											</div>
+										</div>
+										<div class="nstSlider range-bg" data-range_min="{{plans.area.min}}" data-range_max="{{plans.area.max}}" data-cur_min="55" data-cur_max="90">
+											<div class="highlightPanel"></div>
+										    <div class="bar"></div>
+										    <div class="handle leftGrip"></div>
+										    <div class="handle rightGrip"></div>
+										</div>								
+										<div class="results">
+											<span class="leftLabel" ></span> ㎡　<span class="separate">ー</span>　
+											<span class="rightLabel"></span> ㎡
 										</div>
 									</div>
-									<div class="nstSlider range-bg" data-range_min="{{plans.area.min}}" data-range_max="{{plans.area.max}}" data-cur_min="55" data-cur_max="90">
-										<div class="highlightPanel"></div>
-									    <div class="bar"></div>
-									    <div class="handle leftGrip"></div>
-									    <div class="handle rightGrip"></div>
-									</div>								
-									<div class="leftLabel" ></div>
-									<div class="rightLabel"></div>
 								</div>
-							</div>
-							<h3>間取りを選択</h3>
-							<div class="wrap areas">
-								<div class="btn-group">
-									<span class="btn active" ng-repeat="type in plans.types">{{ type }}</span>
+								<h3>間取りを選択</h3>
+								<div class="wrap areas">
+									<div class="btn-group">
+										<span class="btn" ng-repeat="type in plans.types" ng-click="check_type($index,type)">{{ type }}</span>
+									</div>
 								</div>
-							</div>
-							<h3>向きを選択</h3>
-							<div class="wrap areas">
-								<div class="btn-group">
-									<span class="btn active" ng-repeat="direction in plans.directions">{{ direction }}向き</span>
+								<h3>向きを選択</h3>
+								<div class="wrap direction">
+									<div class="btn-group">
+										<span class="btn" ng-click="check_direction($index,'south')">
+											南向き
+										</span>
+										<span class="btn" ng-click="check_direction($index,'east')">
+											東向き
+										</span>					
+									</div>
 								</div>
-							</div>
-						</div>		
-					</ons-col>
-				</ons-row>
-			</ons-page>
-		</ons-navigator>
-	</ons-template>
-	<div ng-controller="TabController">
-		<ons-tabbar var="tabbar">
-			<ons-tab page="home.html" active="true">
-				<ons-icon icon="ion-home"></ons-icon>
-				<span style="font-size: 14px">Home</span>
-			</ons-tab>
-			<ons-tab page="select.html">
-				<ons-icon icon="ion-waterdrop"></ons-icon>
-				<span style="font-size: 14px">カラーセレクト</span>
-			</ons-tab>
-			<ons-tab page="view.html" class="pos-r" ng-click="ViewButton()" id="viewBtn">
-				<ons-icon icon="ion-pinpoint" ></ons-icon>
-				<span style="font-size: 14px">眺望</span>
-			</ons-tab>
-			<ons-tab page="plan.html">
-				<ons-icon icon="ion-search"></ons-icon>
-				<span style="font-size: 14px">間取り検索</span>
-			</ons-tab>
-		</ons-tabbar>
-		<div class="btn-overlay" ng-show="viewBtn"></div>
+							</div>		
+						</ons-col>
+					</ons-row>
+				</ons-page>
+			</ons-navigator>
+		</ons-template>
+		<div>
+			<ons-tabbar var="tabbar">
+				<ons-tab page="top.html" active="true" id="homeBtn">
+					<ons-icon icon="ion-home"></ons-icon>
+					<span style="font-size: 14px">Home</span>
+				</ons-tab>
+				<ons-tab page="select.html" id="colorselectBtn">
+					<ons-icon icon="ion-waterdrop"></ons-icon>
+					<span style="font-size: 14px">カラーセレクト</span>
+				</ons-tab>
+				<ons-tab page="view.html" class="pos-r" id="viewBtn">
+					<ons-icon icon="ion-pinpoint" ></ons-icon>
+					<span style="font-size: 14px">眺望</span>
+				</ons-tab>
+				<ons-tab page="plan.html" class="pos-r" id="planBtn">
+					<ons-icon icon="ion-search"></ons-icon>
+					<span style="font-size: 14px">間取り検索</span>
+				</ons-tab>
+			</ons-tabbar>		
+		</div>
+	</div>  	
+	<div id="loading">
+		<div class="loading-txt">
+			Loading...<br>
+			<i class="ion-loading-c" data-pack="default" data-tags="spinner, waiting, refresh, animation" data-animation="true"></i>
+		</div>	
 	</div>
 	<script src="lib/onsen/js/angular/angular.js"></script>    
 	<script src="lib/onsen/js/angular/angular-animate.js"></script>
 	<script src="lib/onsen/js/jquery.min.js"></script>
+	<script src="js/min/lib.min.js"></script>
 	<script src="lib/onsen/js/onsenui.js"></script>  
 	<script src="lib/three.min.js"></script>
 	<script src="lib/CSS3DRenderer.js"></script>
-	<script src="js/min/app.min.js"></script>
-	<script src="js/min/lib.min.js"></script>
+	<script src="js/app.js"></script>
 	<script src="js/min/config.min.js"></script>
 	<script src="js/min/color-select.min.js"></script>
 	<script src="js/min/panorama.min.js"></script>
-	<script src="js/plan.js"></script>
-	
+	<script src="js/plan.js"></script>	
 </body>  
 </html>

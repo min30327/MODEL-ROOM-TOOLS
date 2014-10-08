@@ -20,8 +20,17 @@
 		  	$scope.image = $scope.types[0];
 		  	$scope.primary_texture = $scope.textures[3];
 		  	$scope.primary_top = $scope.tops[0];
-		  	$scope.imgPreload;
-		  	
+		  	Loading.run();
+			setTimeout(function(){
+				$scope.imgPreload();
+				$scope.curent_texture = get_tex_url('img/png/kit','m04','off','.png');
+		  			
+			},200);
+		  	tabbar.on('prechange', function(event) {
+				  if($('#colorselectBtn').hasClass('active')&&event.index==1){
+					  		event.cancel();
+				  }
+			});
   		});
 
   		  $(document).on('swiperight', '.side', function() {
@@ -180,20 +189,35 @@
 	     * @return {[type]}
 	     */
 	    $scope.imgPreload = function(){
+	    	var cnt = 0;
+	    	var l = 0;
 	    	for (var i in ColorSelectConfig.textures){
 	    		var img = document.createElement('img');
 				img.src = ColorSelectConfig.textures[i].source;
+				cnt ++;
 	    	}
 	    	for (var i in ColorSelectConfig.tops){
 	    		var img = document.createElement('img');
 				img.src = ColorSelectConfig.tops[i].source;
+				cnt ++;
 	    	}
-	    	for(var n in  regions){
+	    	for(var n in ColorSelectConfig.regions){
 	    		for(var i in  ColorSelectConfig.regions[n]){
 					var img = document.createElement('img');
 					img.src = ColorSelectConfig.regions[n][i].source;
+					cnt ++;
 	    		}
 	    	}
+	    	l = Object.keys(ColorSelectConfig.textures).length + 
+	    	Object.keys(ColorSelectConfig.tops).length + 
+	    	Object.keys(ColorSelectConfig.regions).length +
+	    	Object.keys(ColorSelectConfig.regions[n]).length;
+	    	console.log(cnt + ':' + l);
+			if(cnt > l){
+				img.onload = function(){
+					Loading.complete()
+				}
+			}
 	    }
 		 
 

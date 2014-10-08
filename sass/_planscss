@@ -1,0 +1,235 @@
+
+.plans{
+	box-sizing: border-box;
+	color: #FFF;
+	position: relative;
+	font-size: 14px;
+	margin: 30px 0 60px 20px;
+	// overflow: hidden;
+	// min-height:800px;
+	
+	li{
+		@include easeOutQuart(500);
+		position: relative;
+		box-sizing: border-box;
+		width: 45%;
+		float: left;
+		height: 160px;
+		margin-right: 2%;	
+		margin-bottom: 2%;
+		padding: 10px 20px;		
+		border: 1px solid #fff;
+		cursor: pointer;
+		
+	}
+}
+.plan-type-name{
+			span{
+				font-size: 25pt;
+			}
+			margin-bottom: 5px;
+		}
+.plan-score{
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	span{
+		font-size: 23pt;
+	}
+}	
+.plan-type,.plan-direction{
+	font-size: 20px;
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+.plan-details{
+	padding: 10px 0;
+	border-top: 1px solid #fff;
+	font-size: 12px;
+}
+.btn{
+	border: 1px solid #fff;
+	color: #FFF;
+	display: inline-block;
+	padding: 10px 20px;
+	@include easeOutQuart(500);
+	cursor: pointer;
+}
+.btn-group{
+	width: 100%;
+	text-indent: 0;
+	margin-bottom: 20px;
+	display: table;
+	text-align: center;
+	.btn{
+		display: table-cell;
+		border-left: none;
+		font-size: 15px;
+		&.active{
+			background: #FFF;
+			color: $global_color;
+			border-right:1px solid #ddd;
+		}
+	}
+	.btn:first-child{
+		-webkit-border-radius: 6px 0 0 6px;
+		        border-radius: 6px 0 0 6px;
+	    border-left: 1px solid #fff;
+	}
+	.btn:last-child{
+		-webkit-border-radius: 0 6px 6px 0;
+		        border-radius: 0 6px 6px 0;
+	}
+}
+
+/**
+ * Range slider 
+ */
+.range-slider{
+	// position: relative;
+	// height: 40px;
+	// padding: 20px 0 0;
+	// span{
+	// 	display: block;
+	// }
+	// .handle{
+	// 	-webkit-border-radius: 30px;
+	// 	        border-radius: 30px;
+	//     height: 30px;
+	//     width: 30px;
+	// 	background: #fff;
+	// 	position: absolute;
+	// 	left: 0;
+	// 	top:0;
+	// 	z-index:3;
+	// 	-webkit-box-shadow: #999 0 0 3px;
+	// 	        box-shadow: #999 0 0 3px;
+	// }
+	// .bar{
+	// 	-webkit-border-radius: 3px;
+	// 	        border-radius: 3px;
+	//     height: 6px;
+	// 	background: $global_color;
+		
+	// }
+	// .range-bg{
+	// 	-webkit-border-radius: 3px;
+	// 	        border-radius: 3px;
+	//     width: 100%;
+	//     height: 6px;
+	// 	background: #fff;
+	// 	position: absolute;
+	// 	top:12px;
+	// 	z-index: 1;
+	// }
+}
+$slider-width: 100%;
+$slider-height: 20px;
+$color-white: white;
+
+.is_clickable {
+    cursor: hand;
+    cursor: pointer;
+}
+
+
+//
+// slider styles
+//
+
+.nstSlider {
+    margin-bottom: 30px;	
+    position: relative;
+    width: $slider-width;
+    height: $slider-height;
+
+    .leftGrip.gripHighlighted {
+        background:#fff;
+    }
+    .rightGrip.gripHighlighted {
+        background:#fff;
+    }
+
+    .rightGrip,
+    .leftGrip {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: $color-white;
+
+    }
+
+    .bar {
+        position: absolute;
+        background: $global_color;
+        height: $slider-height - 12px;
+        top: 10px;
+        -webkit-border-radius: 15px;
+    	        border-radius: 15px;
+    }
+
+    .highlightPanel {
+       	width: 100%;
+        position: absolute;
+        background: #fff;
+        height: $slider-height - 12px;
+        top: 10px;
+        -webkit-border-radius: 15px;
+    	        border-radius: 15px;
+    }
+    .handle{
+    	cursor:move ;	
+    	-webkit-border-radius: 30px;
+    	        border-radius: 30px;
+        -webkit-box-shadow: #999 0 0 3px;
+                box-shadow: #999 0 0 3px;
+    }
+}
+.meter {
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+	border-bottom: 2px solid #fff;
+	// overflow: hidden;
+	position: relative;
+	width: 100%;
+	.inner{
+		display: table;
+		width: 105%;
+		left: -2.5%;
+		position: relative;
+			span{
+			width: 11%;
+			display: table-cell;
+			text-align: center;
+			position: relative;
+			&:after{
+				border-left: 1px solid #fff;
+				position: absolute;
+				content: ' ';
+				height: 5px;
+				position: absolute;
+				left: 50%;
+				bottom:-5px;
+			}
+		}
+	}
+	
+}
+// styling these should be really up to you as they live outside this plugin
+.results{
+	text-align: center;
+	.separate{
+		font-size: 15px;
+		vertical-align: top;
+		line-height: 40px;
+	}
+}
+
+.leftLabel  { 
+	font-size: 30px;
+}
+.rightLabel { 
+	font-size: 30px;
+}

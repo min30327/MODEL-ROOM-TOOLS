@@ -53,10 +53,14 @@
 		$scope.view_paths = view_path;
 		var touchX, touchY;
 		var viewRenderer = document.getElementById('ViewRenderer');
-		ons.ready(function() {	
-			$scope.imgPreload;
-  			init();
-			animate();
+		ons.ready(function() {
+			Loading.run();
+			setTimeout(function(){
+				$scope.imgPreload();
+				init();
+				animate();
+			},200)
+  			
 			tabbar.on('prechange', function(event) {
 			  if($('#viewBtn').hasClass('active')&&event.index==2){
 			  		event.cancel();
@@ -274,11 +278,22 @@
 		 * [preImage description]
 		 * @return {[type]}
 		 */
-		$scope.preImage = function(){
-			// for (var i in textures){
-	  //   		var img = document.createElement('img');
-			// 	img.src = textures[i].source;
-	  //   	}
+		$scope.imgPreload = function(){
+			var cnt = 1;
+			for (var i in view_path){
+	    		for( var n =0; n <fname.length; n++){
+	    			var img = document.createElement('img');
+					img.src = 'img/view/'+ view_path[i].path +'/' + fname[n] + '.jpg';
+					console.log(cnt);
+					if(cnt == Object.keys(view_path).length * fname.length){
+						img.onload = function(){
+							console.log('complete!');
+							Loading.complete()
+						}
+					}
+					cnt ++;
+				}
+	    	}
 		}
 	
   }]);

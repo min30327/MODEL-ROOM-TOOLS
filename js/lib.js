@@ -1,3 +1,288 @@
+/**
+ * jQuery Masonry v2.1.08
+ * A dynamic layout plugin for jQuery
+ * The flip-side of CSS Floats
+ * http://masonry.desandro.com
+ *
+ * Licensed under the MIT license.
+ * Copyright 2012 David DeSandro
+ */
+(function(e,t,n){"use strict";var r=t.event,i;r.special.smartresize={setup:function(){t(this).bind("resize",r.special.smartresize.handler)},teardown:function(){t(this).unbind("resize",r.special.smartresize.handler)},handler:function(e,t){var n=this,s=arguments;e.type="smartresize",i&&clearTimeout(i),i=setTimeout(function(){r.dispatch.apply(n,s)},t==="execAsap"?0:100)}},t.fn.smartresize=function(e){return e?this.bind("smartresize",e):this.trigger("smartresize",["execAsap"])},t.Mason=function(e,n){this.element=t(n),this._create(e),this._init()},t.Mason.settings={isResizable:!0,isAnimated:!1,animationOptions:{queue:!1,duration:500},gutterWidth:0,isRTL:!1,isFitWidth:!1,containerStyle:{position:"relative"}},t.Mason.prototype={_filterFindBricks:function(e){var t=this.options.itemSelector;return t?e.filter(t).add(e.find(t)):e},_getBricks:function(e){var t=this._filterFindBricks(e).css({position:"absolute"}).addClass("masonry-brick");return t},_create:function(n){this.options=t.extend(!0,{},t.Mason.settings,n),this.styleQueue=[];var r=this.element[0].style;this.originalStyle={height:r.height||""};var i=this.options.containerStyle;for(var s in i)this.originalStyle[s]=r[s]||"";this.element.css(i),this.horizontalDirection=this.options.isRTL?"right":"left";var o=this.element.css("padding-"+this.horizontalDirection),u=this.element.css("padding-top");this.offset={x:o?parseInt(o,10):0,y:u?parseInt(u,10):0},this.isFluid=this.options.columnWidth&&typeof this.options.columnWidth=="function";var a=this;setTimeout(function(){a.element.addClass("masonry")},0),this.options.isResizable&&t(e).bind("smartresize.masonry",function(){a.resize()}),this.reloadItems()},_init:function(e){this._getColumns(),this._reLayout(e)},option:function(e,n){t.isPlainObject(e)&&(this.options=t.extend(!0,this.options,e))},layout:function(e,t){for(var n=0,r=e.length;n<r;n++)this._placeBrick(e[n]);var i={};i.height=Math.max.apply(Math,this.colYs);if(this.options.isFitWidth){var s=0;n=this.cols;while(--n){if(this.colYs[n]!==0)break;s++}i.width=(this.cols-s)*this.columnWidth-this.options.gutterWidth}this.styleQueue.push({$el:this.element,style:i});var o=this.isLaidOut?this.options.isAnimated?"animate":"css":"css",u=this.options.animationOptions,a;for(n=0,r=this.styleQueue.length;n<r;n++)a=this.styleQueue[n],a.$el[o](a.style,u);this.styleQueue=[],t&&t.call(e),this.isLaidOut=!0},_getColumns:function(){var e=this.options.isFitWidth?this.element.parent():this.element,t=e.width();this.columnWidth=this.isFluid?this.options.columnWidth(t):this.options.columnWidth||this.$bricks.outerWidth(!0)||t,this.columnWidth+=this.options.gutterWidth,this.cols=Math.floor((t+this.options.gutterWidth)/this.columnWidth),this.cols=Math.max(this.cols,1)},_placeBrick:function(e){var n=t(e),r,i,s,o,u;r=Math.ceil(n.outerWidth(!0)/this.columnWidth),r=Math.min(r,this.cols);if(r===1)s=this.colYs;else{i=this.cols+1-r,s=[];for(u=0;u<i;u++)o=this.colYs.slice(u,u+r),s[u]=Math.max.apply(Math,o)}var a=Math.min.apply(Math,s),f=0;for(var l=0,c=s.length;l<c;l++)if(s[l]===a){f=l;break}var h={top:a+this.offset.y};h[this.horizontalDirection]=this.columnWidth*f+this.offset.x,this.styleQueue.push({$el:n,style:h});var p=a+n.outerHeight(!0),d=this.cols+1-c;for(l=0;l<d;l++)this.colYs[f+l]=p},resize:function(){var e=this.cols;this._getColumns(),(this.isFluid||this.cols!==e)&&this._reLayout()},_reLayout:function(e){var t=this.cols;this.colYs=[];while(t--)this.colYs.push(0);this.layout(this.$bricks,e)},reloadItems:function(){this.$bricks=this._getBricks(this.element.children())},reload:function(e){this.reloadItems(),this._init(e)},appended:function(e,t,n){if(t){this._filterFindBricks(e).css({top:this.element.height()});var r=this;setTimeout(function(){r._appended(e,n)},1)}else this._appended(e,n)},_appended:function(e,t){var n=this._getBricks(e);this.$bricks=this.$bricks.add(n),this.layout(n,t)},remove:function(e){this.$bricks=this.$bricks.not(e),e.remove()},destroy:function(){this.$bricks.removeClass("masonry-brick").each(function(){this.style.position="",this.style.top="",this.style.left=""});var n=this.element[0].style;for(var r in this.originalStyle)n[r]=this.originalStyle[r];this.element.unbind(".masonry").removeClass("masonry").removeData("masonry"),t(e).unbind(".masonry")}},t.fn.imagesLoaded=function(e){function u(){e.call(n,r)}function a(e){var n=e.target;n.src!==s&&t.inArray(n,o)===-1&&(o.push(n),--i<=0&&(setTimeout(u),r.unbind(".imagesLoaded",a)))}var n=this,r=n.find("img").add(n.filter("img")),i=r.length,s="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",o=[];return i||u(),r.bind("load.imagesLoaded error.imagesLoaded",a).each(function(){var e=this.src;this.src=s,this.src=e}),n};var s=function(t){e.console&&e.console.error(t)};t.fn.masonry=function(e){if(typeof e=="string"){var n=Array.prototype.slice.call(arguments,1);this.each(function(){var r=t.data(this,"masonry");if(!r){s("cannot call methods on masonry prior to initialization; attempted to call method '"+e+"'");return}if(!t.isFunction(r[e])||e.charAt(0)==="_"){s("no such method '"+e+"' for masonry instance");return}r[e].apply(r,n)})}else this.each(function(){var n=t.data(this,"masonry");n?(n.option(e||{}),n._init()):t.data(this,"masonry",new t.Mason(e,this))});return this}})(window,jQuery);
+/*
+=================================
+img-touch-canvas - v0.1
+http://github.com/rombdn/img-touch-canvas
+
+(c) 2013 Romain BEAUDON
+This code may be freely distributed under the MIT License
+=================================
+*/
+
+
+(function() {
+    var root = this; //global object
+
+    var ImgTouchCanvas = function(options) {
+        if( !options || !options.canvas || !options.path) {
+            throw 'ImgZoom constructor: missing arguments canvas or path';
+        }
+
+        this.canvas         = options.canvas;
+        this.canvas.width   = this.canvas.clientWidth;
+        this.canvas.height  = this.canvas.clientHeight;
+        this.context        = this.canvas.getContext('2d');
+
+        this.desktop = options.desktop || true; //non touch events
+        
+        this.position = {
+            x: 0,
+            y: 0
+        };
+        this.scale = {
+            x: 0.5,
+            y: 0.5
+        };
+        this.imgTexture = new Image();
+        this.imgTexture.src = options.path;
+
+        this.lastZoomScale = 5;
+        this.lastX = null;
+        this.lastY = null;
+
+        this.mdown = true; //desktop drag
+
+        this.init = false;
+        this.checkRequestAnimationFrame();
+        requestAnimationFrame(this.animate.bind(this));
+
+        this.setEventListeners();
+    };
+
+
+    ImgTouchCanvas.prototype = {
+        animate: function() {
+            //set scale such as image cover all the canvas
+            if(!this.init) {
+                if(this.imgTexture.width) {
+                    var scaleRatio = null;
+                    if(this.canvas.clientWidth > this.canvas.clientHeight) {
+                        scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
+                    }
+                    else {
+                        scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
+                    }
+
+                    this.scale.x = scaleRatio;
+                    this.scale.y = scaleRatio;
+                    this.init = true;
+                }
+            }
+
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.context.drawImage(
+                this.imgTexture, 
+                this.position.x, this.position.y, 
+                this.scale.x * this.imgTexture.width, 
+                this.scale.y * this.imgTexture.height);
+
+            requestAnimationFrame(this.animate.bind(this));
+        },
+
+
+        gesturePinchZoom: function(event) {
+            var zoom = false;
+
+            if( event.targetTouches.length >= 2 ) {
+                var p1 = event.targetTouches[0];
+                var p2 = event.targetTouches[1];
+                var zoomScale = Math.sqrt(Math.pow(p2.pageX - p1.pageX, 2) + Math.pow(p2.pageY - p1.pageY, 2)); //euclidian distance
+
+                if( this.lastZoomScale ) {
+                    zoom = zoomScale - this.lastZoomScale;
+                }
+
+                this.lastZoomScale = zoomScale;
+            }    
+
+            return zoom;
+        },
+
+        doZoom: function(zoom) {
+            if(!zoom) return;
+
+            //new scale
+            var currentScale = this.scale.x;
+            var newScale = this.scale.x + zoom/100;
+            
+
+            //some helpers
+            var deltaScale = newScale - currentScale;
+            var currentWidth    = (this.imgTexture.width * this.scale.x);
+            var currentHeight   = (this.imgTexture.height * this.scale.y);
+            var deltaWidth  = this.imgTexture.width*deltaScale;
+            var deltaHeight = this.imgTexture.height*deltaScale;
+
+
+            //by default scale doesnt change position and only add/remove pixel to right and bottom
+            //so we must move the image to the left to keep the image centered
+            //ex: coefX and coefY = 0.5 when image is centered <=> move image to the left 0.5x pixels added to the right
+            var canvasmiddleX = this.canvas.clientWidth / 2;
+            var canvasmiddleY = this.canvas.clientHeight / 2;
+            var xonmap = (-this.position.x) + canvasmiddleX;
+            var yonmap = (-this.position.y) + canvasmiddleY;
+            var coefX = -xonmap / (currentWidth);
+            var coefY = -yonmap / (currentHeight);
+            var newPosX = this.position.x + deltaWidth*coefX;
+            var newPosY = this.position.y + deltaHeight*coefY;
+
+            //edges cases
+            var newWidth = currentWidth + deltaWidth;
+            var newHeight = currentHeight + deltaHeight;
+            
+            if( newWidth < this.canvas.clientWidth ) return;
+            if( newPosX > 0 ) { newPosX = 0; }
+            if( newPosX + newWidth < this.canvas.clientWidth ) { newPosX = this.canvas.clientWidth - newWidth;}
+            
+            if( newHeight < this.canvas.clientHeight ) return;
+            if( newPosY > 0 ) { newPosY = 0; }
+            if( newPosY + newHeight < this.canvas.clientHeight ) { newPosY = this.canvas.clientHeight - newHeight; }
+
+
+            //finally affectations
+            this.scale.x    = newScale;
+            this.scale.y    = newScale;
+            this.position.x = newPosX;
+            this.position.y = newPosY;
+        },
+
+        doMove: function(relativeX, relativeY) {
+            if(this.lastX && this.lastY) {
+              var deltaX = relativeX - this.lastX;
+              var deltaY = relativeY - this.lastY;
+              var currentWidth = (this.imgTexture.width * this.scale.x);
+              var currentHeight = (this.imgTexture.height * this.scale.y);
+
+              this.position.x += deltaX;
+              this.position.y += deltaY;
+
+
+              //edge cases
+              if( this.position.x > 0 ) {
+                this.position.x = 0;
+              }
+              else if( this.position.x + currentWidth < this.canvas.clientWidth ) {
+                this.position.x = this.canvas.clientWidth - currentWidth;
+              }
+              if( this.position.y > 0 ) {
+                this.position.y = 0;
+              }
+              else if( this.position.y + currentHeight < this.canvas.clientHeight ) {
+                this.position.y = this.canvas.clientHeight - currentHeight;
+              }
+            }
+
+            this.lastX = relativeX;
+            this.lastY = relativeY;
+        },
+
+        setEventListeners: function() {
+            // touch
+            this.canvas.addEventListener('touchstart', function(e) {
+                this.lastX          = null;
+                this.lastY          = null;
+                this.lastZoomScale  = null;
+            }.bind(this));
+
+            this.canvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                
+                if(e.targetTouches.length == 2) { //pinch
+                    this.doZoom(this.gesturePinchZoom(e));
+                }
+                else if(e.targetTouches.length == 1) {
+                    var relativeX = e.targetTouches[0].pageX - this.canvas.getBoundingClientRect().left;
+                    var relativeY = e.targetTouches[0].pageY - this.canvas.getBoundingClientRect().top;                
+                    this.doMove(relativeX, relativeY);
+                }
+            }.bind(this));
+
+            if(this.desktop) {
+                // keyboard+mouse
+                window.addEventListener('keyup', function(e) {
+                    console.log(e.keyCode);
+                    if(e.keyCode == 192) { //+
+                        this.doZoom(5);
+                    }
+                    if(e.keyCode == 187) {//-
+                        this.doZoom(-5);
+                    }
+                }.bind(this));
+
+                window.addEventListener('mousedown', function(e) {
+                    this.mdown = true;
+                    this.lastX = null;
+                    this.lastY = null;
+                }.bind(this));
+
+                window.addEventListener('mouseup', function(e) {
+                    this.mdown = false;
+                }.bind(this));
+
+                window.addEventListener('mousemove', function(e) {
+                    var relativeX = e.pageX - this.canvas.getBoundingClientRect().left;
+                    var relativeY = e.pageY - this.canvas.getBoundingClientRect().top;
+
+                    if(e.target == this.canvas && this.mdown) {
+                        this.doMove(relativeX, relativeY);
+                    }
+
+                    if(relativeX <= 0 || relativeX >= this.canvas.clientWidth || relativeY <= 0 || relativeY >= this.canvas.clientHeight) {
+                        this.mdown = false;
+                    }
+
+                }.bind(this));
+
+                window.addEventListener( 'mousewheel', function(e){
+                    var zoomScale = e.wheelDeltaY;
+                    if( this.lastZoomScale ) {
+                        zoom = zoomScale - this.lastZoomScale;
+                    }
+                       this.doZoom(zoom);
+                }.bind(this) );
+            }
+        },
+
+        checkRequestAnimationFrame: function() {
+            var lastTime = 0;
+            var vendors = ['ms', 'moz', 'webkit', 'o'];
+            for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                window.cancelAnimationFrame = 
+                  window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+            }
+
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = function(callback, element) {
+                    var currTime = new Date().getTime();
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+                      timeToCall);
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+            }
+
+            if (!window.cancelAnimationFrame) {
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+            }
+        }
+    };
+
+    root.ImgTouchCanvas = ImgTouchCanvas;
+}).call(this);
 /*
  * jQuery Nestoria Slider
  *

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja" ng-app>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>MRT</title>  
+
+</head>
+<body>  
+
+<!-- 	<div ng-controller="ListController">
+		<label>
+			Developper
+			<input type="checkbox" name="query.selected[]" ng-model="query.selected.0" value="dev">
+		</label>
+		<label>
+			Designer
+			<input type="checkbox" name="query.selected[]" ng-model="query.selected.1" value="designer">
+		</label>
+		<label>
+			Supporter
+			<input type="checkbox" name="query.selected[]" ng-model="query.selected.2" value="support">
+		</label>
+		<div ng-repeat="list in lists| filter:query">
+			{{list.name}}
+			{{list.type}}
+		</div>	
+	</div> 
+ -->
+	<h1>Movies</h1>
+
+	<div ng-init="movies = [
+	          {title:'Man on the Moon', genre:'action'},
+	          {title:'Meet the Robinsons', genre:'family'},
+	          {title:'Sphere', genre:'action'}
+	       ];" />
+	<input type="checkbox" ng-model="genrefilters.action" />Action
+	<br />
+	<input type="checkbox" ng-model="genrefilters.family" />Family
+	<br />{{genrefilters.action}}::{{genrefilters.family}}
+	<ul>
+	    <li ng-repeat="movie in movies | bygenre:genrefilters">{{movie.title}}: {{movie.genre}}</li>
+	</ul> 
+	<script src="lib/onsen/js/angular/angular.js"></script>    
+	<script>
+
+		// var App = angular.module("App",[]);
+		// App.controller("ListController",["$scope","$filter",function($scope,$filter){
+
+		// 		$scope.lists = [
+		// 			{
+		// 				name: 'Okuda',
+		// 				type: 'dev',
+		// 				selected: false
+		// 			},
+		// 			{
+		// 				name : 'Aoki',
+		// 				type: 'designer',
+		// 				selected: true
+		// 			},
+		// 			{
+		// 				name : 'Maruyama',
+		// 				type: 'designer',
+		// 				selected: false
+		// 			},
+		// 			{
+		// 				name : 'Matsumura',
+		// 				type :'support',
+		// 				selected: false
+		// 			},
+		// 			{
+		// 				name : 'Yamao',
+		// 				type : 'dev',
+		// 				selected: false
+		// 			}
+		// 		]
+
+		// }]);
+angular.module('myFilters', []).
+filter('bygenre', function () {
+    return function (movies, genres) {
+        var items = {
+            genres: genres,
+            out: []
+        };
+        angular.forEach(movies, function (value, key) {
+            if (this.genres[value.genre] === true) {
+                this.out.push(value);
+            }
+        }, items);
+        return items.out;
+    };
+});
+
+angular.bootstrap(document, ['myFilters']);
+	</script>
+</body>  
+</html>
