@@ -37,7 +37,6 @@ body{
  * loading
  */
 #loading{
-	
 	background: #FFF;
 	position: fixed;
 	left: 0;
@@ -50,6 +49,20 @@ body{
 		opacity: 0;
 		z-index: -999;
 	}
+	.loading-bar{
+		margin-top: 5px;
+		width: 250px;
+		height: 1px;
+		-webkit-border-radius: 3px;
+		        border-radius: 3px;
+		span{
+			// @include easeOutQuart(800);
+			background: #4F8EF7;
+			display: block;
+			width: 0;
+			height: 1px;
+		}
+	}
 	.loading-txt{
 		text-align: center;
 		color: #4F8EF7;
@@ -57,8 +70,9 @@ body{
 		position: fixed;
 		left: 50%;
 		top: 50%;
-		margin-left: -30px;
-		margin-top: -30px;
+		width: 250px;
+		margin-left: -100px;
+		margin-top: -50px;
 		i{
 			color: #4F8EF7;
 			font-size: 30px;

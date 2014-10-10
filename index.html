@@ -164,7 +164,7 @@
 							<div class="content">
 								<div class="plans">
 									<ul >
-										<li ng-repeat="plan in filtered = (plans.data | filter: filterByType|filter:filterByDirection|filter:filterByArea)" class="scale-fade" ng-click="trigger_modal($index)">
+										<li ng-repeat="plan in filtered = (plans.data | filter: filterByType|filter:filterByDirection|filter:filterByArea)" class="scale-fade" ng-click="trigger_modal(plan.plan)">
 											<div class="plan-type-name">
 												<span>{{plan.plan}}</span> type
 											</div>
@@ -281,6 +281,7 @@
 		<div class="loading-txt">
 			Loading...<br>
 			<i class="ion-loading-c" data-pack="default" data-tags="spinner, waiting, refresh, animation" data-animation="true"></i>
+			<!-- <div class="loading-bar"><span></span></div> -->
 		</div>	
 	</div>
 	<script src="lib/onsen/js/angular/angular.js"></script>    

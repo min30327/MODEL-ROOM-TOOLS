@@ -9,10 +9,12 @@ App = angular.module('App',['onsen','ngAnimate']);
 
 
 var Loading = {
-	run : function (){
+	run : function (i){
+		$('#loading .loading-bar span').width(0)
 		$('#loading').removeClass('active');
 	},
 	complete : function (){
+		$('#loading .loading-bar span').animate('width','100%')
 		$('#loading').addClass('active');
 	}
 }
@@ -59,4 +61,3 @@ var Loading = {
 			});
 	}]);
 	
-

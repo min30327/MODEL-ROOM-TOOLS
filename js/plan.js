@@ -5,7 +5,7 @@
 * @param  $filter
 * @return void(0)
 */
-App.controller('PlanController',['$scope','$filter',function($scope,$filter){
+App.controller('PlanController',['$scope','$filter','$timeout',function($scope,$filter,$timeout){
   		
   		$scope.plans = PlanConfig;
 		$scope.floors = [];
@@ -47,7 +47,7 @@ App.controller('PlanController',['$scope','$filter',function($scope,$filter){
   			setTimeout(
   			         function(){
   			         	$('.bg-plan').addClass('active');
-  			         	msnry.masonry({itemSelector: 'li',transitionDuration:0.2});
+  			         	msnry.masonry({itemSelector: 'li',transitionDuration:0});
   			         	$('.nstSlider').nstSlider({
   			         		// "rounding": steps,
 						    "left_grip_selector": ".leftGrip",
@@ -64,7 +64,7 @@ App.controller('PlanController',['$scope','$filter',function($scope,$filter){
 						    }
 						});
 					$(window).on('resize',function(){
-						$scope.changed();
+						msnry.masonry('reload');  
 						resize();
 						drawImg($scope.modal.src);	
 					});
@@ -126,19 +126,26 @@ App.controller('PlanController',['$scope','$filter',function($scope,$filter){
 	    }; 
 
 	    $scope.changed = function(){
-	    	// console.log('changed')
-			setTimeout(
-       		     function(){
-       		     	msnry.find('li').stop();
-       		     	msnry.masonry('reload');
-       		     }
-       		,600);
+		    $timeout(
+		     function(){
+		     	msnry.masonry('reload');  
+			   	 $(".plans li").last().stop(true,true).bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){	
+				   		msnry.masonry('reload');       		    
+		       		 });
+			   	  }
+		   	 ,500);
 		};
-		$scope.trigger_modal = function(i){
+		$scope.trigger_modal = function(type){
+			var i = 0;
+			for ( var key in $scope.plans.data ) {
+				if(type == $scope.plans.data[key].plan)				
+					i = key;
+			}
+
 			$('#modal').addClass('active')
+			$scope.modal = $scope.plans.data[i];
 			$scope.modalopen = true;
 			setTimeout(function(){
-				$scope.modal = $scope.plans.data[i];
 				resize();	
 				drawImg($scope.modal.src);
 			},300)

@@ -52,7 +52,7 @@
 	// min-height:800px;
 	
 	li{
-		@include easeOutQuart(500);
+		@include easeOutQuart(800);
 		position: relative;
 		box-sizing: border-box;
 		width: 45%;

@@ -284,10 +284,8 @@
 	    		for( var n =0; n <fname.length; n++){
 	    			var img = document.createElement('img');
 					img.src = 'img/view/'+ view_path[i].path +'/' + fname[n] + '.jpg';
-					console.log(cnt);
 					if(cnt == Object.keys(view_path).length * fname.length){
 						img.onload = function(){
-							console.log('complete!');
 							Loading.complete()
 						}
 					}
